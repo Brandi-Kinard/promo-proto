@@ -1,12 +1,41 @@
-# React + Vite
+# Promotion Management Prototype
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React-based prototype for managing product promotions with an intuitive user interface.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Select product lines to apply promotions
+- Configure promotion details including timeframes and discount types
+- Conflict detection and resolution for overlapping promotions
+- Visual feedback for user actions through toasts and modals
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `src/components/`: Reusable UI components
+- `src/pages/`: Main application views
+- `src/styles/`: CSS stylesheets
+
+## Technology Stack
+
+- React 18
+- Vite for build tooling
+- CSS Modules for styling
+
+## Getting Started
+
+1. Clone the repository
+2. Install dependencies:
+   ```
+   npm install
+   ```
+3. Start the development server:
+   ```
+   npm run dev
+   ```
+4. Open http://localhost:5173 in your browser
+
+## Development Notes
+
+The prototype implements a two-step workflow:
+1. Line selection: Choose which product lines to apply promotions to
+2. Promotion configuration: Set up the details of the promotion
