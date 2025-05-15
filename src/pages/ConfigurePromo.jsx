@@ -2,6 +2,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import '../styles/ConfigurePromo.css';
 import CustomDropdown from '../components/CustomDropdown';
+import CustomDateInput from '../components/CustomDateInput';
 
 const TooltipIcon = ({ label }) => (
 <span className="tooltip-icon" role="img" aria-label="info">
@@ -216,17 +217,17 @@ return (
           Events <TooltipIcon label="This is a tooltip about Events." />
         </label>
         <div className="select-wrapper">
-          <select 
-            value={formState.event || ''} 
-            onChange={handleChange('event')}
-            className={!formState.event ? 'empty' : ''}
-          >
-            <option value="">Select event</option>
-            <option value="Event 1">Event 1</option>
-            <option value="Event 2">Event 2</option>
-            <option value="Event 3">Event 3</option>
-          </select>
-          <span className="select-arrow"></span>
+          <CustomDropdown
+            options={[
+              { value: '', label: 'Select event' },
+              { value: 'Event 1', label: 'Event 1' },
+              { value: 'Event 2', label: 'Event 2' },
+              { value: 'Event 3', label: 'Event 3' }
+            ]}
+            value={formState.event || ''}
+            onChange={(value) => handleChange('event')({ target: { value } })}
+            placeholder="Select event"
+          />
         </div>
       </div>
     </div>
@@ -249,16 +250,12 @@ return (
     <div className="form-grid date-grid">
       <div className="form-group">
         <label>Start date</label>
-        <div className="date-input-wrapper">
-          <input
-            type="date"
-            value={formState.startDate || ''}
-            onChange={handleChange('startDate')}
-            className={`${formState.hasConflict && !conflictResolved ? 'error' : ''} ${!formState.startDate ? 'empty' : ''}`}
-            placeholder="mm/dd/yyyy"
-          />
-          <img src="https://raw.githubusercontent.com/Brandi-Kinard/SVGs/refs/heads/main/calendar.svg" alt="" className="calendar-icon" />
-        </div>
+        <CustomDateInput
+          value={formState.startDate || ''}
+          onChange={handleChange('startDate')}
+          hasError={formState.hasConflict && !conflictResolved}
+          placeholder="mm/dd/yyyy"
+        />
         {formState.hasConflict && !conflictResolved && (
           <div className="helper-error">
             <div className="error-message">
@@ -272,49 +269,40 @@ return (
 
       <div className="form-group">
         <label>End date</label>
-        <div className="date-input-wrapper">
-          <input
-            type="date"
-            value={formState.endDate || ''}
-            onChange={handleChange('endDate')}
-            className={!formState.endDate ? 'empty' : ''}
-            placeholder="mm/dd/yyyy"
-          />
-          <img src="https://raw.githubusercontent.com/Brandi-Kinard/SVGs/refs/heads/main/calendar.svg" alt="" className="calendar-icon" />
-        </div>
+        <CustomDateInput
+          value={formState.endDate || ''}
+          onChange={handleChange('endDate')}
+          placeholder="mm/dd/yyyy"
+        />
       </div>
 
       <div className="form-group">
         <label>Start time</label>
         <div className="select-wrapper">
-          <select 
-            value={formState.startTime || ''} 
-            onChange={handleChange('startTime')}
-            className={!formState.startTime ? 'empty' : ''}
-          >
-            <option value="">Select start time</option>
-            {times.map((time) => (
-              <option key={time} value={time}>{time}</option>
-            ))}
-          </select>
-          <span className="select-arrow"></span>
+          <CustomDropdown
+            options={[
+              { value: '', label: 'Select start time' },
+              ...times.map(time => ({ value: time, label: time }))
+            ]}
+            value={formState.startTime || ''}
+            onChange={(value) => handleChange('startTime')({ target: { value } })}
+            placeholder="Select start time"
+          />
         </div>
       </div>
 
       <div className="form-group">
         <label>End time</label>
         <div className="select-wrapper">
-          <select 
-            value={formState.endTime || ''} 
-            onChange={handleChange('endTime')}
-            className={!formState.endTime ? 'empty' : ''}
-          >
-            <option value="">Select end time</option>
-            {times.map((time) => (
-              <option key={time} value={time}>{time}</option>
-            ))}
-          </select>
-          <span className="select-arrow"></span>
+          <CustomDropdown
+            options={[
+              { value: '', label: 'Select end time' },
+              ...times.map(time => ({ value: time, label: time }))
+            ]}
+            value={formState.endTime || ''}
+            onChange={(value) => handleChange('endTime')({ target: { value } })}
+            placeholder="Select end time"
+          />
         </div>
       </div>
 
@@ -323,18 +311,18 @@ return (
           Promo hold period <TooltipIcon label="This is a tooltip about Promo Hold Period." />
         </label>
         <div className="select-wrapper">
-          <select 
-            value={formState.holdPeriod || ''} 
-            onChange={handleChange('holdPeriod')}
-            className={!formState.holdPeriod ? 'empty' : ''}
-          >
-            <option value="">Select</option>
-            <option value="24 hrs">24 hrs</option>
-            <option value="48 hrs">48 hrs</option>
-            <option value="72 hrs">72 hrs</option>
-            <option value="None">None</option>
-          </select>
-          <span className="select-arrow"></span>
+          <CustomDropdown
+            options={[
+              { value: '', label: 'Select' },
+              { value: '24 hrs', label: '24 hrs' },
+              { value: '48 hrs', label: '48 hrs' },
+              { value: '72 hrs', label: '72 hrs' },
+              { value: 'None', label: 'None' }
+            ]}
+            value={formState.holdPeriod || ''}
+            onChange={(value) => handleChange('holdPeriod')({ target: { value } })}
+            placeholder="Select"
+          />
         </div>
       </div>
     </div>

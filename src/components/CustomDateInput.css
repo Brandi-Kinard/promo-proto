@@ -1,0 +1,65 @@
+.custom-date-input {
+  position: relative;
+  width: 100%;
+}
+
+.custom-date-input input {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: inherit;
+  box-sizing: border-box;
+  height: 40px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: white;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  padding-right: 30px;
+  cursor: pointer;
+}
+
+.custom-date-input input.empty {
+  color: #9CA3AF;
+}
+
+.custom-date-input input::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.custom-date-input input:hover {
+  border-color: #0071dc;
+}
+
+.custom-date-input input:focus {
+  outline: none;
+  border-color: #0071dc;
+  box-shadow: 0 0 0 2px rgba(0, 113, 220, 0.2);
+}
+
+.custom-date-input.error input {
+  border-color: #DC2626;
+}
+
+.custom-date-input.error input:focus {
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+}
+
+.custom-date-input .calendar-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  z-index: 1;
+}
