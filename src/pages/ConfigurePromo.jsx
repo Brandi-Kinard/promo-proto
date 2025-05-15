@@ -3,7 +3,6 @@ import React, { useRef, useState, useEffect } from 'react';
 import '../styles/ConfigurePromo.css';
 import CustomDropdown from '../components/CustomDropdown';
 import CustomDateInput from '../components/CustomDateInput';
-import CustomDateInput from '../components/CustomDateInput';
 
 const TooltipIcon = ({ label }) => (
 <span className="tooltip-icon" role="img" aria-label="info">
