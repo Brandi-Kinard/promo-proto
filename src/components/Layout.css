@@ -1,0 +1,24 @@
+/* src/components/Layout.css */
+.layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .layout-header {
+    background-color: #043369;
+    color: white;
+    padding: 1rem 2rem;
+  }
+  
+  .layout-main {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    overflow: auto; /* Allow scrolling in the main content */
+  }
+  
+
+  

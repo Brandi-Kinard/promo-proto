@@ -1,0 +1,152 @@
+/* src/components/PromoPanel.css */
+.promo-panel-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: flex-end;
+    z-index: 1000;
+  }
+  
+  .promo-panel-scrim {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .promo-panel {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    max-width: 100%;
+    height: 100%;
+    border-left: 1px solid #ccc;
+    background-color: #fff;
+    box-shadow: -4px 0 12px rgba(0, 0, 0, 0.15);
+    position: relative;
+    z-index: 1001;
+  }
+  
+  .promo-panel-header {
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    background-color: #fff;
+  }
+  
+  .promo-panel-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    margin-right: -8px;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  
+  .close-button:hover {
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  
+  .promo-panel-body {
+    flex: 1;
+    overflow-y: auto;
+  }
+  
+  .promo-panel-footer {
+    padding: 16px 24px 16px;
+    border-top: 1px solid #eee;
+    background-color: #fff;
+  }
+  
+  /* Footer actions styling */
+  .footer-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .footer-actions span {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .footer-actions button {
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  .footer-actions button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .right-actions {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .revert-btn {
+    background: none;
+    border: none;
+    color: #555;
+    padding: 0;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 25px;
+  }
+  
+  .revert-btn:hover:not(:disabled) {
+    text-decoration: underline;
+  }
+  
+  .revert-btn:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .cancel-btn {
+    background-color: white;
+    border: 1px solid #ccc;
+    color: #333;
+    border-radius: 25px;
+  }
+  
+  .cancel-btn:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .apply-btn {
+    background-color: #0058AB;
+    border: none;
+    color: white;
+    border-radius: 25px;
+  }
+  
+  .apply-btn:hover:not(:disabled) {
+    background-color: #004C96;
+  }

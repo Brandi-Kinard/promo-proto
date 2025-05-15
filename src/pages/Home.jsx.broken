@@ -1,0 +1,1293 @@
+// src/pages/Home.jsx
+import React, { useState } from 'react';
+import Layout from '../components/Layout';
+import PromoPanel from '../components/PromoPanel';
+import SuccessModal from '../components/SuccessModal';
+import Toast from '../components/Toast';
+import LineSelection from './LineSelection';
+import ConfigurePromo from './ConfigurePromo';
+
+// Define jifLines directly in the Home component
+const jifLines = [
+  {
+    id: 'line-16oz',
+    name: 'JIF-Core Stabilized Peanut Butter 16 oz',
+    itemCount: 5,
+    promoApplied: false,
+    lineId: '551448120',
+    thumbnail: 'https://raw.githubusercontent.com/Brandi-Kinard/imageSamples/main/JIF%20peanut%20butter/16oz.png',
+  },
+  {
+    id: 'line-28oz',
+    name: 'JIF-Core Stabilized Peanut Butter 28 oz',
+    itemCount: 5,
+    promoApplied: false,
+    lineId: '551448121',
+    thumbnail: 'https://raw.githubusercontent.com/Brandi-Kinard/imageSamples/main/JIF%20peanut%20butter/28oz.png',
+  },
+  {
+    id: 'line-40oz',
+    name: 'JIF-Core Stabilized Peanut Butter 40 oz',
+    itemCount: 5,
+    promoApplied: false,
+    lineId: '551448122',
+    thumbnail: 'https://raw.githubusercontent.com/Brandi-Kinard/imageSamples/main/JIF%20peanut%20butter/40oz.png',
+  },
+  {
+    id: 'line-64oz',
+    name: 'JIF-Core Stabilized Peanut Butter 64 oz',
+    itemCount: 5,
+    promoApplied: true,
+    lineId: '551448123',
+    thumbnail: 'https://raw.githubusercontent.com/Brandi-Kinard/imageSamples/main/JIF%20peanut%20butter/64oz.png',
+  },
+  {
+    id: 'line-80oz',
+    name: 'JIF-Core Stabilized Peanut Butter 80 oz',
+    itemCount: 5,
+    promoApplied: false,
+    lineId: '551448124',
+    thumbnail: 'https://raw.githubusercontent.com/Brandi-Kinard/imageSamples/main/JIF%20peanut%20butter/80oz.png',
+  },
+];
+
+const Home = () => {
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [step, setStep] = useState('select');
+  const [selectedLines, setSelectedLines] = useState([]);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [hasFormChanged, setHasFormChanged] = useState(false);
+  const [selectLinesCollapsed, setSelectLinesCollapsed] = useState(false);
+  const [configPromoCollapsed, setConfigPromoCollapsed] = useState(true); // Start collapsed
+  const [formState, setFormState] = useState({
+    promoType: '',
+    badgeType: '',
+    discount: '',
+    event: '',
+    startDate: '',
+    startTime: '',
+    endDate: '',
+    endTime: '',
+    holdPeriod: '',
+    forceSitePrice: false,
+    hasConflict: false,
+  });
+
+  const defaultForm = {
+    promoType: '',
+    badgeType: '',
+    discount: '',
+    event: '',
+    startDate: '',
+    startTime: '',
+    endDate: '',
+    endTime: '',
+    holdPeriod: '',
+    forceSitePrice: false,
+    hasConflict: false,
+  };
+
+  const handleTriggerClick = () => {
+    setIsPanelOpen(true);
+    setStep('select');
+    setSelectedLines([]);
+    setFormState(defaultForm);
+    setHasFormChanged(false);
+  };
+
+  const toggleLine = (id) => {
+    setSelectedLines((prev) =>
+      prev.includes(id) ? prev.filter((line) => line !== id) : [...prev, id]
+    );
+  };
+
+  const handleClose = () => {
+    if (hasFormChanged) {
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 3000);
+    }
+    setIsPanelOpen(false);
+  };
+
+  const handleBack = () => {
+    setStep('select');
+  };
+
+  const handleNext = () => {
+    setStep('configure');
+  };
+
+  const handleFormChange = (field, value) => {
+    setHasFormChanged(true);
+    setFormState((prev) => ({
+      ...prev,
+      [field]: value,
+      // Simulate finding conflict when date fields are filled
+      hasConflict: field === 'startDate' && value ? true : prev.hasConflict,
+    }));
+  };
+
+  const handleApplyPromo = () => {
+    setShowSuccessModal(true);
+    setTimeout(() => {
+      setShowSuccessModal(false);
+      setIsPanelOpen(false);
+      setStep('select');
+      setSelectedLines([]);
+      setFormState(defaultForm);
+      setHasFormChanged(false);
+    }, 2000);
+  };
+
+  const handleCancel = () => {
+    handleClose();
+  };
+
+  const handleRevert = () => {
+    setFormState(defaultForm);
+    setHasFormChanged(false);
+  };
+
+  // Render promo panel content based on the current step
+  const renderPanelContent = () => {
+    if (step === 'select') {
+      return (
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <LineSelection
+            lines={jifLines}
+            selectedLines={selectedLines}
+            toggleLine={toggleLine}
+          />
+          <div
+            style={{
+              marginTop: 'auto',
+              padding: '16px 24px',
+              borderTop: '1px solid #eee',
+              display: 'flex',
+              justifyContent: 'space-between',
+              backgroundColor: 'white',
+            }}
+          >
+            <span style={{ fontSize: '14px', color: '#555' }}>
+              {selectedLines.length} line{selectedLines.length !== 1 ? 's' : ''} selected
+            </span>
+            <button
+              onClick={handleNext}
+              disabled={selectedLines.length === 0}
+              style={{
+                backgroundColor: selectedLines.length === 0 ? '#e0e0e0' : '#0071dc',
+                color: 'white',
+                border: 'none',
+                borderRadius: '25px',
+                padding: '8px 16px',
+                fontSize: '14px',
+                fontWeight: '500',
+                cursor: selectedLines.length === 0 ? 'not-allowed' : 'pointer',
+              }}
+            >
+              Continue
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    if (step === 'configure') {
+      return (
+        <ConfigurePromo
+          onBack={handleBack}
+          selectedLines={selectedLines}
+          formState={formState}
+          onFormChange={handleFormChange}
+          onCancel={handleCancel}
+          onApplyPromo={handleApplyPromo}
+          onRevert={handleRevert}
+          jifLines={jifLines}
+        />
+      );
+    }
+
+    if (step === 'accordion') {
+      // Render the improved version (v2) with accordion-style approach
+      return (
+        <div className="accordion-panel" style={{ padding: '24px' }}>
+          {/* Line Selection Accordion */}
+          <div style={{
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            marginBottom: '24px',
+            backgroundColor: 'white',
+            overflow: 'hidden',
+            boxShadow: 'none'
+          }}>
+            <div 
+              onClick={() => {
+                // Toggle collapsing of the select lines section
+                setSelectLinesCollapsed(!selectLinesCollapsed);
+              }}
+              style={{
+                padding: '12px 20px',
+                borderBottom: selectLinesCollapsed ? 'none' : '1px solid #eee',
+                fontWeight: '600',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                cursor: 'pointer'
+              }}
+            >
+              <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '600', display: 'flex', alignItems: 'center' }}>
+                <span style={{ 
+                  display: 'inline-flex', 
+                  justifyContent: 'center', 
+                  alignItems: 'center', 
+                  width: '24px', 
+                  height: '24px', 
+                  backgroundColor: '#0071dc', 
+                  color: 'white', 
+                  borderRadius: '50%', 
+                  marginRight: '12px',
+                  fontSize: '14px'
+                }}>1</span>
+                Select Lines
+              </h3>
+              
+              {/* Show thumbnails and count in header when collapsed */}
+              {selectLinesCollapsed && selectedLines.length > 0 ? (
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <span style={{ fontSize: '14px', color: '#555', marginRight: '8px' }}>
+                    {selectedLines.length} selected
+                  </span>
+                  
+                  {/* Thumbnails */}
+                  <div style={{ 
+                    display: 'flex',
+                    position: 'relative',
+                    height: '28px',
+                    minWidth: '60px',
+                    justifyContent: 'flex-end',
+                    cursor: 'help'
+                  }}>
+                    <div style={{ position: 'relative', display: 'flex' }}>
+                      {selectedLines.slice(0, 2).map((lineId, idx) => {
+                        const oz = lineId.split('-')[1];
+                        return (
+                          <img 
+                            key={lineId}
+                            src={`https://raw.githubusercontent.com/Brandi-Kinard/imageSamples/main/JIF%20peanut%20butter/${oz}.png`}
+                            alt={`${oz}oz`}
+                            style={{
+                              position: 'absolute',
+                              width: '24px',
+                              height: '24px',
+                              borderRadius: '4px',
+                              objectFit: 'cover',
+                              border: 'none',
+                              right: `${idx * 16}px`, 
+                              zIndex: 10 - idx
+                            }}
+                          />
+                        );
+                      })}
+                      {selectedLines.length > 2 && (
+                        <span style={{ 
+                          position: 'absolute',
+                          right: '-16px',
+                          fontSize: '12px',
+                          fontWeight: '500',
+                          color: '#555',
+                          display: 'flex',
+                          alignItems: 'center',
+                          height: '24px'
+                        }}>
+                          +{selectedLines.length - 2}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <img 
+                  src={selectLinesCollapsed ? 
+                    "https://raw.githubusercontent.com/Brandi-Kinard/SVGs/refs/heads/main/down-caret.svg" : 
+                    "https://raw.githubusercontent.com/Brandi-Kinard/SVGs/refs/heads/main/up-caret.svg"}
+                  alt={selectLinesCollapsed ? "Expand" : "Collapse"}
+                  style={{
+                    width: '20px',
+                    height: '20px'
+                  }}
+                />
+              )}
+            </div>
+            
+            {/* Content is only shown when not collapsed */}
+            {!selectLinesCollapsed && (
+              <div style={{ padding: '20px', backgroundColor: 'white' }}>
+                <div style={{ marginBottom: '20px', fontSize: '14px', color: '#555', lineHeight: '1.5' }}>
+                  Select the product lines you want to apply a promotion to:
+                </div>
+                
+                {/* Selected lines summary (when lines are selected) */}
+                {selectedLines.length > 0 && (
+                  <div style={{ 
+                    display: 'flex', 
+                    justifyContent: 'space-between', 
+                    alignItems: 'center', 
+                    marginBottom: '16px',
+                    padding: '12px 16px',
+                    backgroundColor: '#f5f9ff',
+                    borderRadius: '8px',
+                    border: '1px solid #e6f0ff'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <div style={{ fontSize: '14px', fontWeight: '600' }}>
+                        {selectedLines.length} line{selectedLines.length > 1 ? 's' : ''} selected
+                      </div>
+                    </div>
+                    
+                    {/* Clear button */}
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent the card from collapsing
+                        setSelectedLines([]);
+                      }} 
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#0071dc',
+                        cursor: 'pointer',
+                        fontSize: '14px',
+                        fontWeight: '500',
+                        padding: '4px 8px'
+                      }}
+                    >
+                      Clear
+                    </button>
+                  </div>
+                )}
+                
+                {/* Line selection UI */}
+                <div style={{ 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  gap: '12px',
+                  backgroundColor: 'white'
+                }}>
+                  {jifLines.map(line => (
+                    <div 
+                      key={line.id}
+                      onClick={() => toggleLine(line.id)}
+                      style={{
+                        padding: '12px 16px',
+                        backgroundColor: selectedLines.includes(line.id) ? '#f5f9ff' : 'white',
+                        border: 'none',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        transition: 'background-color 0.2s'
+                      }}
+                    >
+                      <input 
+                        type="checkbox" 
+                        checked={selectedLines.includes(line.id)}
+                        onChange={() => {}} 
+                        style={{ 
+                          marginRight: '12px', 
+                          marginTop: '8px',
+                          transform: 'scale(1.1)',
+                          flexShrink: 0
+                        }}
+                      />
+                      
+                      <img 
+                        src={line.thumbnail}
+                        alt={line.name}
+                        style={{
+                          width: '32px',
+                          height: '32px',
+                          objectFit: 'contain',
+                          margin: '0 12px',
+                          flexShrink: 0,
+                          marginTop: '3px',
+                          border: 'none'
+                        }}
+                      />
+                      
+                      <div style={{ 
+                        flex: 1,
+                        minWidth: 0,
+                        marginRight: '12px'
+                      }}>
+                        <div style={{ 
+                          fontWeight: '600', 
+                          fontSize: '14px',
+                          marginBottom: '4px',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical'
+                        }}>
+                          {line.name}
+                        </div>
+                        <div style={{ fontSize: '12px', color: '#555' }}>
+                          ID #{line.lineId} • {line.itemCount} items
+                        </div>
+                      </div>
+                      
+                      {line.promoApplied && (
+                        <div style={{
+                          position: 'relative',
+                          backgroundColor: '#e6f7ff',
+                          border: '1px solid #91d5ff',
+                          borderRadius: '3px',
+                          padding: '2px 10px',
+                          fontSize: '11px',
+                          color: '#0071dc',
+                          whiteSpace: 'nowrap',
+                          flexShrink: 0,
+                          cursor: 'help',
+                          zIndex: 10
+                        }}>
+                          Promo applied
+                          <div style={{
+                            display: 'none',
+                            position: 'absolute',
+                            width: '180px',
+                            height: 'auto',
+                            minHeight: 'fit-content',
+                            backgroundColor: '#222',
+                            color: '#fff',
+                            textAlign: 'left',
+                            borderRadius: '4px',
+                            padding: '12px 16px',
+                            zIndex: 999,
+                            bottom: '130%',
+                            right: 0,
+                            fontSize: '12px',
+                            lineHeight: 1.5,
+                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+                            wordWrap: 'break-word',
+                            overflowWrap: 'break-word',
+                            whiteSpace: 'normal',
+                            overflow: 'visible',
+                            maxHeight: 'none'
+                          }} className="tooltip-box">
+                            A promotion is already applied to this line. You can add another if it doesn't conflict in time or type. Any conflicts will be flagged during setup.
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Button to proceed to step 2 (only appears if lines are selected) */}
+                {selectedLines.length > 0 && (
+                  <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'flex-end' }}>
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent the card from collapsing
+                        // Scroll to the configuration section and expand it
+                        const configSection = document.querySelector('.config-section');
+                        if (configSection) {
+                          setConfigPromoCollapsed(false); // Expand the config section
+                          configSection.scrollIntoView({ behavior: 'smooth' });
+                        }
+                      }}
+                      style={{
+                        backgroundColor: '#0071dc',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '25px',
+                        padding: '8px 16px',
+                        fontSize: '14px',
+                        fontWeight: '500',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Continue to Step 2
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Configuration Accordion - Only fully enabled when lines are selected */}
+            <div 
+              className="config-section"
+              style={{
+                border: '1px solid #e0e0e0',
+                borderRadius: '8px',
+                backgroundColor: 'white',
+                overflow: 'hidden',
+                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)',
+                marginTop: '24px'
+              }}
+            >
+              <div 
+                onClick={() => {
+                  // Toggle collapsing of the configure promo section
+                  setConfigPromoCollapsed(!configPromoCollapsed);
+                }}
+                style={{
+                  padding: '12px 20px',
+                  borderBottom: configPromoCollapsed ? 'none' : '1px solid #eee',
+                  fontWeight: '600',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  cursor: 'pointer'
+                }}
+              >
+                <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '600', display: 'flex', alignItems: 'center' }}>
+                  <span style={{ 
+                    display: 'inline-flex', 
+                    justifyContent: 'center', 
+                    alignItems: 'center', 
+                    width: '24px', 
+                    height: '24px', 
+                    backgroundColor: '#0071dc', 
+                    color: 'white', 
+                    borderRadius: '50%', 
+                    marginRight: '12px',
+                    fontSize: '14px'
+                  }}>2</span>
+                  Configure Promotion
+                </h3>
+                
+                {selectedLines.length === 0 ? (
+                  <span style={{ fontSize: '14px', color: '#999' }}>Please select lines first</span>
+                ) : (
+                  <img 
+                    src={configPromoCollapsed ? 
+                      "https://raw.githubusercontent.com/Brandi-Kinard/SVGs/refs/heads/main/down-caret.svg" : 
+                      "https://raw.githubusercontent.com/Brandi-Kinard/SVGs/refs/heads/main/up-caret.svg"}
+                    alt={configPromoCollapsed ? "Expand" : "Collapse"}
+                    style={{
+                      width: '20px',
+                      height: '20px'
+                    }}
+                  />
+                )}
+              </div>
+              
+              {selectedLines.length > 0 && !configPromoCollapsed && (
+                <div style={{ padding: '20px' }}>
+                  {/* Form content */}
+                  <div style={{ marginBottom: '24px' }}>
+                    <p style={{ color: '#555', fontSize: '14px', margin: '0 0 16px 0' }}>
+                      Configure the promotion parameters for {selectedLines.length} selected line{selectedLines.length > 1 ? 's' : ''}:
+                    </p>
+                  
+                    {/* Form sections */}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px', marginBottom: '24px' }}>
+                      {/* Promo Type */}
+                      <div style={{ marginBottom: '16px' }}>
+                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', fontSize: '14px' }}>
+                          Promo Type
+                          <span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+                        </label>
+                        <div style={{ position: 'relative' }}>
+                          <select 
+                            value={formState.promoType}
+                            onChange={(e) => handleFormChange('promoType', e.target.value)}
+                            style={{
+                              width: '100%',
+                              padding: '8px 12px',
+                              border: '1px solid #ccc',
+                              borderRadius: '6px',
+                              fontSize: '14px',
+                              appearance: 'none',
+                              backgroundColor: 'white',
+                              height: '40px'
+                            }}
+                            className={!formState.promoType ? 'empty' : ''}
+                          >
+                            <option value="">Select a promo type</option>
+                            <option value="standard">Standard</option>
+                            <option value="follow-competition">Follow Competition</option>
+                          </select>
+                          <div style={{ 
+                            position: 'absolute',
+                            right: '12px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            pointerEvents: 'none',
+                            width: '12px',
+                            height: '12px'
+                          }}>
+                            ▼
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Badge Type */}
+                      <div style={{ marginBottom: '16px' }}>
+                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', fontSize: '14px' }}>
+                          Badge Type
+                          <span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+                        </label>
+                        <div style={{ position: 'relative' }}>
+                          <select 
+                            value={formState.badgeType}
+                            onChange={(e) => handleFormChange('badgeType', e.target.value)}
+                            style={{
+                              width: '100%',
+                              padding: '8px 12px',
+                              border: '1px solid #ccc',
+                              borderRadius: '6px',
+                              fontSize: '14px',
+                              appearance: 'none',
+                              backgroundColor: 'white',
+                              height: '40px'
+                            }}
+                            className={!formState.badgeType ? 'empty' : ''}
+                          >
+                            <option value="">Select a badge type</option>
+                            <option value="reduced">Reduced</option>
+                            <option value="normal">Normal</option>
+                          </select>
+                          <div style={{ 
+                            position: 'absolute',
+                            right: '12px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            pointerEvents: 'none',
+                            width: '12px',
+                            height: '12px'
+                          }}>
+                            ▼
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Discount */}
+                      <div style={{ marginBottom: '16px' }}>
+                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', fontSize: '14px' }}>
+                          Discount
+                          <span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+                        </label>
+                        <input 
+                          type="text"
+                          value={formState.discount}
+                          onChange={(e) => handleFormChange('discount', e.target.value)}
+                          placeholder="Discount %"
+                          style={{
+                            width: '100%',
+                            padding: '8px 12px',
+                            border: '1px solid #ccc',
+                            borderRadius: '6px',
+                            fontSize: '14px',
+                            height: '40px'
+                          }}
+                        />
+                      </div>
+                      
+                      {/* Event */}
+                      <div style={{ marginBottom: '16px' }}>
+                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', fontSize: '14px' }}>
+                          Event
+                          <span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+                        </label>
+                        <div style={{ position: 'relative' }}>
+                          <select 
+                            value={formState.event}
+                            onChange={(e) => handleFormChange('event', e.target.value)}
+                            style={{
+                              width: '100%',
+                              padding: '8px 12px',
+                              border: '1px solid #ccc',
+                              borderRadius: '6px',
+                              fontSize: '14px',
+                              appearance: 'none',
+                              backgroundColor: 'white',
+                              height: '40px'
+                            }}
+                            className={!formState.event ? 'empty' : ''}
+                          >
+                            <option value="">Select an event</option>
+                            <option value="back-to-school">Back to School</option>
+                            <option value="black-friday">Black Friday</option>
+                            <option value="cyber-monday">Cyber Monday</option>
+                            <option value="holiday">Holiday</option>
+                          </select>
+                          <div style={{ 
+                            position: 'absolute',
+                            right: '12px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            pointerEvents: 'none',
+                            width: '12px',
+                            height: '12px'
+                          }}>
+                            ▼
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Date Grid */}
+                    <div style={{ 
+                      display: 'grid', 
+                      gridTemplateColumns: 'repeat(2, 1fr)', 
+                      gap: '16px',
+                      marginBottom: '24px'
+                    }}>
+                      {/* Start Date */}
+                      <div style={{ marginBottom: '16px' }}>
+                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', fontSize: '14px' }}>
+                          Start Date
+                          <span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+                        </label>
+                        <div style={{ position: 'relative' }}>
+                          <input 
+                            type="date"
+                            value={formState.startDate}
+                            onChange={(e) => handleFormChange('startDate', e.target.value)}
+                            style={{
+                              width: '100%',
+                              padding: '8px 12px',
+                              border: '1px solid #ccc',
+                              borderRadius: '6px',
+                              fontSize: '14px',
+                              height: '40px'
+                            }}
+                            className={formState.hasConflict ? 'error' : ''}
+                          />
+                          <img 
+                            src="https://raw.githubusercontent.com/Brandi-Kinard/SVGs/refs/heads/main/calendar.svg"
+                            alt="Calendar"
+                            style={{
+                              position: 'absolute',
+                              right: '12px',
+                              top: '50%',
+                              transform: 'translateY(-50%)',
+                              width: '16px',
+                              height: '16px',
+                              pointerEvents: 'none'
+                            }}
+                          />
+                        </div>
+                        {formState.hasConflict && (
+                          <div style={{ 
+                            color: '#DC2626', 
+                            fontSize: '12px', 
+                            marginTop: '4px', 
+                            display: 'flex',
+                            alignItems: 'center'
+                          }}>
+                            <img 
+                              src="https://raw.githubusercontent.com/Brandi-Kinard/SVGs/refs/heads/main/error.svg"
+                              alt="Error"
+                              style={{ width: '14px', height: '14px', marginRight: '4px' }}
+                            />
+                            Date conflict with existing promotion
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* End Date */}
+                      <div style={{ marginBottom: '16px' }}>
+                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', fontSize: '14px' }}>
+                          End Date
+                          <span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+                        </label>
+                        <div style={{ position: 'relative' }}>
+                          <input 
+                            type="date"
+                            value={formState.endDate}
+                            onChange={(e) => handleFormChange('endDate', e.target.value)}
+                            style={{
+                              width: '100%',
+                              padding: '8px 12px',
+                              border: '1px solid #ccc',
+                              borderRadius: '6px',
+                              fontSize: '14px',
+                              height: '40px'
+                            }}
+                          />
+                          <img 
+                            src="https://raw.githubusercontent.com/Brandi-Kinard/SVGs/refs/heads/main/calendar.svg"
+                            alt="Calendar"
+                            style={{
+                              position: 'absolute',
+                              right: '12px',
+                              top: '50%',
+                              transform: 'translateY(-50%)',
+                              width: '16px',
+                              height: '16px',
+                              pointerEvents: 'none'
+                            }}
+                          />
+                        </div>
+                      </div>
+                      
+                      {/* Start Time */}
+                      <div style={{ marginBottom: '16px' }}>
+                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', fontSize: '14px' }}>
+                          Start Time
+                          <span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+                        </label>
+                        <div style={{ position: 'relative' }}>
+                          <select 
+                            value={formState.startTime}
+                            onChange={(e) => handleFormChange('startTime', e.target.value)}
+                            style={{
+                              width: '100%',
+                              padding: '8px 12px',
+                              border: '1px solid #ccc',
+                              borderRadius: '6px',
+                              fontSize: '14px',
+                              appearance: 'none',
+                              backgroundColor: 'white',
+                              height: '40px'
+                            }}
+                            className={!formState.startTime ? 'empty' : ''}
+                          >
+                            <option value="">Select start time</option>
+                            <option value="00:00">12:00 AM</option>
+                            <option value="06:00">6:00 AM</option>
+                            <option value="12:00">12:00 PM</option>
+                            <option value="18:00">6:00 PM</option>
+                          </select>
+                          <div style={{ 
+                            position: 'absolute',
+                            right: '12px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            pointerEvents: 'none',
+                            width: '12px',
+                            height: '12px'
+                          }}>
+                            ▼
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* End Time */}
+                      <div style={{ marginBottom: '16px' }}>
+                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', fontSize: '14px' }}>
+                          End Time
+                          <span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+                        </label>
+                        <div style={{ position: 'relative' }}>
+                          <select 
+                            value={formState.endTime}
+                            onChange={(e) => handleFormChange('endTime', e.target.value)}
+                            style={{
+                              width: '100%',
+                              padding: '8px 12px',
+                              border: '1px solid #ccc',
+                              borderRadius: '6px',
+                              fontSize: '14px',
+                              appearance: 'none',
+                              backgroundColor: 'white',
+                              height: '40px'
+                            }}
+                            className={!formState.endTime ? 'empty' : ''}
+                          >
+                            <option value="">Select end time</option>
+                            <option value="00:00">12:00 AM</option>
+                            <option value="06:00">6:00 AM</option>
+                            <option value="12:00">12:00 PM</option>
+                            <option value="18:00">6:00 PM</option>
+                          </select>
+                          <div style={{ 
+                            position: 'absolute',
+                            right: '12px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            pointerEvents: 'none',
+                            width: '12px',
+                            height: '12px'
+                          }}>
+                            ▼
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Hold Period */}
+                      <div style={{ marginBottom: '16px' }}>
+                        <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', fontSize: '14px' }}>
+                          Hold Period
+                          <span style={{ color: 'red', marginLeft: '2px' }}>*</span>
+                        </label>
+                        <div style={{ position: 'relative' }}>
+                          <select 
+                            value={formState.holdPeriod}
+                            onChange={(e) => handleFormChange('holdPeriod', e.target.value)}
+                            style={{
+                              width: '100%',
+                              padding: '8px 12px',
+                              border: '1px solid #ccc',
+                              borderRadius: '6px',
+                              fontSize: '14px',
+                              appearance: 'none',
+                              backgroundColor: 'white',
+                              height: '40px'
+                            }}
+                            className={!formState.holdPeriod ? 'empty' : ''}
+                          >
+                            <option value="">Select hold period</option>
+                            <option value="none">None</option>
+                            <option value="24h">24 Hours</option>
+                            <option value="48h">48 Hours</option>
+                            <option value="72h">72 Hours</option>
+                          </select>
+                          <div style={{ 
+                            position: 'absolute',
+                            right: '12px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            pointerEvents: 'none',
+                            width: '12px',
+                            height: '12px'
+                          }}>
+                            ▼
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Force Site Price Checkbox */}
+                    <div style={{ marginTop: '8px', marginBottom: '24px' }}>
+                      <label style={{ 
+                        display: 'flex', 
+                        alignItems: 'center',
+                        cursor: 'pointer',
+                        fontSize: '14px',
+                        fontWeight: '500'
+                      }}>
+                        <input 
+                          type="checkbox"
+                          checked={formState.forceSitePrice}
+                          onChange={(e) => handleFormChange('forceSitePrice', e.target.checked)}
+                          style={{ marginRight: '8px' }}
+                        />
+                        Force Site Price
+                      </label>
+                    </div>
+                  </div>
+                  
+                  {/* Conflict Card */}
+                  {formState.hasConflict && (
+                    <div style={{
+                      border: '1px solid #e0e0e0',
+                      borderRadius: '8px',
+                      marginBottom: '24px',
+                      backgroundColor: 'white',
+                      overflow: 'hidden',
+                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)'
+                    }}>
+                      <div style={{
+                        padding: '12px 20px',
+                        fontWeight: '600',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        borderBottom: '1px solid #eee',
+                        backgroundColor: '#fff8f8'
+                      }}>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <img 
+                            src="https://raw.githubusercontent.com/Brandi-Kinard/SVGs/refs/heads/main/error.svg"
+                            alt="Error"
+                            style={{ width: '20px', height: '20px', marginRight: '10px' }}
+                          />
+                          <span>Conflicts Found (1)</span>
+                        </div>
+                        <button
+                          style={{
+                            backgroundColor: 'white',
+                            border: '1px solid #e0e0e0',
+                            color: '#333',
+                            borderRadius: '25px',
+                            padding: '6px 14px',
+                            fontSize: '13px',
+                            fontWeight: '500',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          Refresh
+                        </button>
+                      </div>
+                      
+                      <div style={{ padding: '16px 20px' }}>
+                        <div style={{
+                          overflowX: 'auto'
+                        }}>
+                          <table style={{
+                            width: '100%',
+                            borderCollapse: 'separate',
+                            borderSpacing: '0',
+                            fontSize: '13px'
+                          }}>
+                            <thead>
+                              <tr>
+                                <th style={{ textAlign: 'left', padding: '8px', fontWeight: '600', color: '#777' }}>Item</th>
+                                <th style={{ textAlign: 'left', padding: '8px', fontWeight: '600', color: '#777' }}>Type</th>
+                                <th style={{ textAlign: 'left', padding: '8px', fontWeight: '600', color: '#777' }}>Start</th>
+                                <th style={{ textAlign: 'left', padding: '8px', fontWeight: '600', color: '#777' }}>End</th>
+                                <th style={{ textAlign: 'left', padding: '8px', fontWeight: '600', color: '#777' }}>Badge</th>
+                                <th style={{ textAlign: 'right', padding: '8px', fontWeight: '600', color: '#777' }}>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr style={{
+                                backgroundColor: 'white',
+                                border: '1px solid #e0e0e0',
+                                boxShadow: '0 1px 2px rgba(0, 0, 0, 0.02)'
+                              }}>
+                                <td style={{ padding: '12px 8px', borderBottom: '1px solid #eee' }}>
+                                  JIF-Core Stabilized Peanut Butter 64 oz
+                                </td>
+                                <td style={{ padding: '12px 8px', borderBottom: '1px solid #eee' }}>
+                                  <div style={{ 
+                                    display: 'flex', 
+                                    alignItems: 'center', 
+                                    gap: '6px',
+                                    color: '#DD3333',
+                                    fontWeight: '500'
+                                  }}>
+                                    Standard
+                                  </div>
+                                </td>
+                                <td style={{ 
+                                  padding: '12px 8px', 
+                                  borderBottom: '1px solid #eee',
+                                  color: '#DD3333',
+                                  fontWeight: '500'
+                                }}>
+                                  01/15/2024
+                                </td>
+                                <td style={{ padding: '12px 8px', borderBottom: '1px solid #eee' }}>
+                                  02/15/2024
+                                </td>
+                                <td style={{ padding: '12px 8px', borderBottom: '1px solid #eee' }}>
+                                  Reduced
+                                </td>
+                                <td style={{ 
+                                  padding: '12px 8px', 
+                                  borderBottom: '1px solid #eee',
+                                  textAlign: 'right'
+                                }}>
+                                  <button style={{
+                                    background: 'none',
+                                    border: 'none',
+                                    textDecoration: 'underline',
+                                    color: '#0071dc',
+                                    cursor: 'pointer',
+                                    fontSize: '13px',
+                                    fontWeight: '500'
+                                  }}>
+                                    Resolve
+                                  </button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Footer with action buttons */}
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginTop: '32px'
+                  }}>
+                    <button
+                      onClick={() => handleFormChange('hasConflict', !formState.hasConflict)}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#0071dc',
+                        cursor: 'pointer',
+                        fontSize: '14px',
+                        textDecoration: 'underline'
+                      }}
+                    >
+                      {formState.hasConflict ? 'Remove conflict (demo)' : 'Add conflict (demo)'}
+                    </button>
+                    
+                    <div style={{ display: 'flex', gap: '12px' }}>
+                      <button
+                        onClick={() => {}}
+                        style={{
+                          backgroundColor: 'white',
+                          border: '1px solid #ccc',
+                          color: '#333',
+                          borderRadius: '25px',
+                          padding: '8px 20px',
+                          fontSize: '14px',
+                          fontWeight: '500',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Cancel
+                      </button>
+                      
+                      <button
+                        onClick={handleApplyPromo}
+                        disabled={formState.hasConflict}
+                        style={{
+                          backgroundColor: formState.hasConflict ? '#A3C5E5' : '#0071dc',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '25px',
+                          padding: '8px 20px',
+                          fontSize: '14px',
+                          fontWeight: '500',
+                          cursor: formState.hasConflict ? 'not-allowed' : 'pointer'
+                        }}
+                      >
+                        Apply Promo
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    }
+  };
+
+  return (
+    <Layout>
+      <div className="home">
+        <h1>Promotion Management (Prototype)</h1>
+        <p className="version-switcher">
+          Select Version:
+          <select
+            value={step === 'accordion' ? 'v2' : 'v1'}
+            onChange={(e) => {
+              if (e.target.value === 'v1') {
+                setStep('select');
+              } else {
+                setStep('accordion');
+              }
+            }}
+            style={{ marginLeft: '8px', padding: '4px 8px' }}
+          >
+            <option value="v1">V1 (Two-step Process)</option>
+            <option value="v2">V2 (Accordion Style)</option>
+          </select>
+        </p>
+
+        <div style={{ marginTop: '20px' }}>
+          <button
+            onClick={handleTriggerClick}
+            className="trigger-button"
+            style={{
+              backgroundColor: '#0071dc',
+              color: 'white',
+              border: 'none',
+              borderRadius: '25px',
+              padding: '10px 20px',
+              fontSize: '14px',
+              fontWeight: '500',
+              cursor: 'pointer',
+            }}
+          >
+            + Create New Promotion
+          </button>
+        </div>
+
+        <div
+          style={{
+            position: 'fixed',
+            bottom: '20px',
+            right: '20px',
+            background: '#f8f8f8',
+            padding: '15px',
+            borderRadius: '8px',
+            maxWidth: '400px',
+            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+          }}
+        >
+          <h3 style={{ margin: '0 0 10px 0', fontSize: '16px' }}>Demo Notes</h3>
+          <ul style={{ margin: '0', paddingLeft: '20px', fontSize: '14px' }}>
+            <li>This is a non-functional prototype to visualize UI only</li>
+            <li>Click "Create New Promotion" to start</li>
+            <li>Switch between V1 and V2 to compare approaches</li>
+            <li>All form inputs are dummy fields that don't validate</li>
+            <li>
+              In the promotions configuration screen, you can toggle a simulated conflict for testing
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Promo panel - side drawer */}
+      {isPanelOpen && (
+        <PromoPanel
+          title={
+            step === 'select'
+              ? 'Create Promotion'
+              : step === 'configure'
+              ? 'Configure Promotion'
+              : 'Create Promotion'
+          }
+          onClose={handleClose}
+          footer={
+            step === 'select' ? (
+              <div className="footer-actions">
+                <span>
+                  {selectedLines.length} line{selectedLines.length !== 1 ? 's' : ''} selected
+                </span>
+                <button
+                  className="apply-btn"
+                  onClick={handleNext}
+                  disabled={selectedLines.length === 0}
+                >
+                  Continue
+                </button>
+              </div>
+            ) : step === 'configure' ? (
+              <div className="footer-actions">
+                <button
+                  className="revert-btn"
+                  onClick={handleRevert}
+                  disabled={!hasFormChanged}
+                >
+                  Reset
+                </button>
+                <div className="right-actions">
+                  <button className="cancel-btn" onClick={handleCancel}>
+                    Cancel
+                  </button>
+                  <button
+                    className="apply-btn"
+                    onClick={handleApplyPromo}
+                    disabled={formState.hasConflict}
+                  >
+                    Apply Promo
+                  </button>
+                </div>
+              </div>
+            ) : null
+          }
+        >
+          {renderPanelContent()}
+        </PromoPanel>
+      )}
+
+      {/* Success modal */}
+      {showSuccessModal && (
+        <SuccessModal message="Promotion created successfully!" />
+      )}
+
+      {/* Toast */}
+      {showToast && (
+        <Toast message="Changes discarded" />
+      )}
+    </Layout>
+  );
+};
+
+export default Home;

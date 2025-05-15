@@ -1,0 +1,143 @@
+/* src/pages/LineSelection.css */
+.line-selection {
+    padding: 0 24px;
+  }
+  
+  .line-selection h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  
+  .selection-description {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 24px;
+  }
+  
+  .line-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .line-item {
+    border-radius: 8px;
+    background-color: #fff;
+    transition: background-color 0.2s;
+  }
+  
+  .line-item:hover {
+    background-color: #f5f9ff;
+  }
+  
+  .line-wrapper {
+    display: block;
+    padding: 12px 16px;
+    cursor: pointer;
+  }
+  
+  .line-content-wrapper {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+  
+  .line-checkbox {
+    margin: 0;
+    transform: scale(1.1);
+    flex-shrink: 0;
+    margin-top: 8px;
+  }
+  
+  .line-thumbnail {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    margin: 0 12px;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+  
+  .line-info {
+    flex: 1;
+    min-width: 0;
+    margin-right: 12px;
+  }
+  
+  .line-name {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  
+  .line-subtext {
+    display: block;
+    font-size: 12px;
+    color: #555;
+  }
+  
+  .promo-chip {
+    position: relative;
+    background-color: #e6f7ff;
+    border: 1px solid #91d5ff;
+    border-radius: 3px;
+    padding: 2px 10px;
+    font-size: 11px;
+    color: #0071dc;
+    white-space: nowrap;
+    flex-shrink: 0;
+    cursor: help;
+    z-index: 10;
+  }
+  
+  /* Completely redesigned tooltip box */
+  .promo-chip .tooltip-box {
+    display: none;
+    position: absolute;
+    width: 180px;
+    height: auto;
+    min-height: fit-content;
+    background-color: #222;
+    color: #fff;
+    text-align: left;
+    border-radius: 4px;
+    padding: 12px 16px;
+    z-index: 999;
+    bottom: 130%;
+    right: 0;
+    font-size: 12px;
+    line-height: 1.5;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    overflow: visible;
+    max-height: none;
+  }
+  
+  /* Show the tooltip when hovering over the chip */
+  .promo-chip:hover .tooltip-box {
+    display: block;
+  }
+  
+  /* Arrow at the bottom of the tooltip */
+  .promo-chip .tooltip-box::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 25px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: #222 transparent transparent transparent;
+  }

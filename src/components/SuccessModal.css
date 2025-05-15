@@ -1,0 +1,64 @@
+/* src/components/SuccessModal.css */
+.success-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1500;
+  }
+  
+  .success-modal-scrim {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .success-modal {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    padding: 24px;
+    width: 300px;
+    z-index: 1501;
+    position: relative;
+  }
+  
+  .success-modal-content {
+    text-align: center;
+  }
+  
+  .success-image {
+    width: 120px;
+    height: auto;
+    margin-bottom: 16px;
+  }
+  
+  .success-modal-content h3 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .progress-bar-container {
+    height: 4px;
+    background-color: #e0e0e0;
+    border-radius: 2px;
+    overflow: hidden;
+    width: 100%;
+  }
+  
+  .progress-bar {
+    height: 100%;
+    background-color: #0058AB;
+    border-radius: 2px;
+    transition: width 0.1s ease;
+  }

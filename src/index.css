@@ -1,0 +1,98 @@
+/* Reset full height layout */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* Root styles */
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(33, 53, 71, 0.87); /* improved legibility */
+  background-color: #ffffff;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Remove weird centering from default Vite template */
+body {
+  display: block;
+  min-width: 320px;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+  .feature-card {
+    padding: 16px !important;
+  }
+  
+  section {
+    padding: 16px !important;
+  }
+}
+
+/* Typography */
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+a {
+  font-weight: 500;
+  color: #0033cc;
+  text-decoration: none;
+}
+a:hover {
+  color: #001a80;
+}
+
+/* Button styles */
+button {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #0033cc;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* Light mode override (optional) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    background-color: #1e1e1e;
+    color: #ffffff;
+  }
+
+  button {
+    background-color: #333;
+    color: white;
+    border-color: #555;
+  }
+
+  a {
+    color: #8ab4f8;
+  }
+  a:hover {
+    color: #4a90e2;
+  }
+}
