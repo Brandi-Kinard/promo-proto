@@ -154,7 +154,6 @@ return (
             <li>Delete the conflicting promos</li>
           </ul>
           <a href="#" onClick={(e) => { e.stopPropagation(); handleScrollToConflict(); }} className="banner-error-link">
-            <img src="https://raw.githubusercontent.com/Brandi-Kinard/SVGs/refs/heads/main/down-caret.svg" alt="View" className="link-icon-small" />
             View conflicting promo
           </a>
         </div>
