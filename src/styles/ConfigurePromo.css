@@ -202,6 +202,27 @@
     margin-bottom: 4px;
   }
   
+  .banner-error-link {
+    display: inline-flex;
+    align-items: center;
+    color: #a33;
+    font-weight: 500;
+    text-decoration: underline;
+    margin-top: 8px;
+    font-size: 13px;
+  }
+  
+  .banner-error-link:hover {
+    color: #800000;
+  }
+  
+  .link-icon-small {
+    width: 14px;
+    height: 14px;
+    margin-right: 4px;
+    transform: rotate(90deg);
+  }
+  
   /* Section description */
   .section-description {
     padding: 12px 24px 0;
