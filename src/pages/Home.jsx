@@ -267,6 +267,7 @@ const Home = () => {
         <div className="prototype-overview">
           <h2>Welcome! 👋</h2>
           <p>This prototype demonstrates the new promotion management flow in OPT.</p>
+          <p className="creator-info">Created by: <strong>Brandi Kinard</strong> - Senior UX Designer, Pricing Team</p>
           
           <div className="overview-section">
             <h3>What to expect:</h3>
@@ -280,8 +281,8 @@ const Home = () => {
           <div className="overview-section">
             <h3>Try these scenarios:</h3>
             <ol>
-              <li>Create a simple promotion (dates: <strong>2024-03-01</strong> to <strong>2024-04-30</strong>)</li>
-              <li>Experience a conflict (dates: <strong>2024-01-01</strong> to <strong>2024-03-31</strong>)</li>
+              <li>Create a simple promotion (dates: <strong>03/01/2024</strong> to <strong>04/30/2024</strong>)</li>
+              <li>Experience a conflict (dates: <strong>01/01/2024</strong> to <strong>03/31/2024</strong>)</li>
               <li>Navigate to PDP via the "Resolve" link to fix conflicts</li>
             </ol>
           </div>
