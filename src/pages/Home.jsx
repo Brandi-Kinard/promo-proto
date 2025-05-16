@@ -246,7 +246,23 @@ const Home = () => {
   return (
     <Layout>
       <div style={{ flex: 1, padding: '20px' }}>
-        <h1>OPT Pricing Tool - Promo Prototype</h1>
+        <h1>Promotion Management Flow - v4 Prototype</h1>
+        
+        <button
+          onClick={handleTriggerClick}
+          style={{
+            padding: '8px 16px',
+            backgroundColor: '#0058AB',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            marginTop: '20px',
+            marginBottom: '30px'
+          }}
+        >
+          Create eComm Promo
+        </button>
         
         <div className="prototype-overview">
           <h2>Welcome! 👋</h2>
@@ -284,22 +300,6 @@ const Home = () => {
             <strong>💡 Tip:</strong> Use the specific dates above to trigger the conflict scenario and see how resolution works across tools.
           </div>
         </div>
-        
-        <button 
-          onClick={handleTriggerClick}
-          style={{
-            padding: '8px 16px',
-            backgroundColor: '#0058AB',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            marginTop: '20px',
-            marginBottom: '40px'
-          }}
-        >
-          Create eComm Promo
-        </button>
       </div>
 
       {isPanelOpen && (
