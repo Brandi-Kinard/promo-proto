@@ -287,6 +287,10 @@ const Home = () => {
             </ol>
           </div>
           
+          <div className="conflict-trigger-note">
+            <strong>⚠️ Important:</strong> To trigger the conflict experience, you must select the <strong>"JIF-Core Stabilized Peanut Butter 64 oz"</strong> line (the one with the "Promo applied" chip) along with your other selections.
+          </div>
+          
           <div className="feedback-section">
             <h3>Feedback I'm looking for:</h3>
             <ul>

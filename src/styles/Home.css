@@ -97,4 +97,19 @@
   color: #0071dc;
 }
 
+.conflict-trigger-note {
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin: 16px 0;
+  line-height: 1.5;
+  color: #856404;
+}
+
+.conflict-trigger-note strong {
+  color: #664d03;
+  font-weight: 600;
+}
+
 /* Keep overview visible even when panel is open */
