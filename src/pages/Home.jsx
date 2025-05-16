@@ -245,7 +245,7 @@ const Home = () => {
 
   return (
     <Layout>
-      <div style={{ flex: 1, padding: '20px' }}>
+      <div style={{ flex: 1, padding: '20px', overflowY: 'auto' }}>
         <h1>Promotion Management Flow - v4 Prototype</h1>
         
         <button
@@ -300,6 +300,9 @@ const Home = () => {
             <strong>💡 Tip:</strong> Use the specific dates above to trigger the conflict scenario and see how resolution works across tools.
           </div>
         </div>
+        
+        {/* Add space at bottom for scrolling */}
+        <div style={{ height: '60px' }}></div>
       </div>
 
       {isPanelOpen && (
