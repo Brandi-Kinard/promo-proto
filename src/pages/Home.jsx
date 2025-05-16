@@ -270,39 +270,34 @@ const Home = () => {
           <p className="creator-info">Created by: <strong>Brandi Kinard</strong> - Senior UX Designer, Pricing Team</p>
           
           <div className="overview-section">
-            <h3>What to expect:</h3>
+            <h3>What you'll test:</h3>
             <ul>
-              <li>A two-step process: Select product lines → Configure promotion</li>
-              <li>Conflict detection that requires resolution before continuing</li>
-              <li>Cross-tool workflow between OPT and PDP for non-clearance conflicts</li>
+              <li>Two-step flow: Select lines → Configure promo</li>
+              <li>Conflict detection and resolution workflow</li>
+              <li>Cross-tool experience between OPT and PDP</li>
             </ul>
           </div>
           
           <div className="overview-section">
-            <h3>Try these scenarios:</h3>
+            <h3>Test scenarios:</h3>
             <ol>
-              <li>Create a simple promotion (dates: <strong>03/01/2024</strong> to <strong>04/30/2024</strong>)</li>
-              <li>Experience a conflict (dates: <strong>01/01/2024</strong> to <strong>03/31/2024</strong>)</li>
-              <li>Navigate to PDP via the "Resolve" link to fix conflicts</li>
+              <li><strong>Simple promo:</strong> Use dates 03/01/2024 - 04/30/2024</li>
+              <li><strong>Conflict flow:</strong> Use dates 01/01/2024 - 03/31/2024 (must include 64 oz)</li>
             </ol>
           </div>
           
           <div className="conflict-trigger-note">
-            <strong>⚠️ Important:</strong> To trigger the conflict experience, you must select the <strong>"JIF-Core Stabilized Peanut Butter 64 oz"</strong> line (the one with the "Promo applied" chip) along with your other selections.
+            <strong>⚠️ Note:</strong> Select the <strong>64 oz line</strong> (with "Promo applied" chip) to trigger conflicts.
           </div>
           
           <div className="feedback-section">
-            <h3>Feedback I'm looking for:</h3>
+            <h3>Your feedback needed on:</h3>
             <ul>
-              <li>Is the two-step flow intuitive?</li>
-              <li>Is conflict resolution clear and manageable?</li>
-              <li>How does the cross-tool workflow feel?</li>
-              <li>Any confusion points or suggestions?</li>
+              <li>Flow intuitiveness</li>
+              <li>Conflict resolution clarity</li>
+              <li>Cross-tool experience</li>
+              <li>Any pain points</li>
             </ul>
-          </div>
-          
-          <div className="tip-box">
-            <strong>💡 Tip:</strong> Use the specific dates above to trigger the conflict scenario and see how resolution works across tools.
           </div>
         </div>
         
