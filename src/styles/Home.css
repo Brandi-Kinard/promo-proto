@@ -84,7 +84,4 @@
   color: #0071dc;
 }
 
-/* Hide overview when panel is open */
-.panel-open .prototype-overview {
-  display: none;
-}
+/* Keep overview visible even when panel is open */

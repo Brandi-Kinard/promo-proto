@@ -245,7 +245,7 @@ const Home = () => {
 
   return (
     <Layout>
-      <div style={{ flex: 1, padding: '20px' }} className={isPanelOpen ? 'panel-open' : ''}>
+      <div style={{ flex: 1, padding: '20px' }}>
         <h1>OPT Pricing Tool - Promo Prototype</h1>
         
         <div className="prototype-overview">
@@ -294,7 +294,8 @@ const Home = () => {
             border: 'none',
             borderRadius: '4px',
             cursor: 'pointer',
-            marginTop: '20px'
+            marginTop: '20px',
+            marginBottom: '40px'
           }}
         >
           Create eComm Promo
