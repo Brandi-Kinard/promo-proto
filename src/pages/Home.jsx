@@ -246,7 +246,7 @@ const Home = () => {
   return (
     <Layout>
       <div style={{ flex: 1, padding: '20px', overflowY: 'auto' }}>
-        <h1>Promotion Management Flow - v4 Prototype</h1>
+        <h1>eComm Promo Creating/Conflict Management in OPT - v4 Prototype</h1>
         
         <button
           onClick={handleTriggerClick}
