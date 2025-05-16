@@ -6,6 +6,7 @@ import SuccessModal from '../components/SuccessModal';
 import Toast from '../components/Toast';
 import LineSelection from './LineSelection';
 import ConfigurePromo from './ConfigurePromo';
+import '../styles/Home.css';
 
 // Define jifLines directly in the Home component
 const jifLines = [
@@ -244,8 +245,46 @@ const Home = () => {
 
   return (
     <Layout>
-      <div style={{ flex: 1, padding: '20px' }}>
+      <div style={{ flex: 1, padding: '20px' }} className={isPanelOpen ? 'panel-open' : ''}>
         <h1>OPT Pricing Tool - Promo Prototype</h1>
+        
+        <div className="prototype-overview">
+          <h2>Welcome! 👋</h2>
+          <p>This prototype demonstrates the new promotion management flow in OPT.</p>
+          
+          <div className="overview-section">
+            <h3>What to expect:</h3>
+            <ul>
+              <li>A two-step process: Select product lines → Configure promotion</li>
+              <li>Conflict detection that requires resolution before continuing</li>
+              <li>Cross-tool workflow between OPT and PDP for non-clearance conflicts</li>
+            </ul>
+          </div>
+          
+          <div className="overview-section">
+            <h3>Try these scenarios:</h3>
+            <ol>
+              <li>Create a simple promotion (dates: <strong>2024-03-01</strong> to <strong>2024-04-30</strong>)</li>
+              <li>Experience a conflict (dates: <strong>2024-01-01</strong> to <strong>2024-03-31</strong>)</li>
+              <li>Navigate to PDP via the "Resolve" link to fix conflicts</li>
+            </ol>
+          </div>
+          
+          <div className="feedback-section">
+            <h3>Feedback I'm looking for:</h3>
+            <ul>
+              <li>Is the two-step flow intuitive?</li>
+              <li>Is conflict resolution clear and manageable?</li>
+              <li>How does the cross-tool workflow feel?</li>
+              <li>Any confusion points or suggestions?</li>
+            </ul>
+          </div>
+          
+          <div className="tip-box">
+            <strong>💡 Tip:</strong> Use the specific dates above to trigger the conflict scenario and see how resolution works across tools.
+          </div>
+        </div>
+        
         <button 
           onClick={handleTriggerClick}
           style={{
